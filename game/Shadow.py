@@ -1,4 +1,5 @@
 from game.Light import *
+from game.Vector import Vec2
 
 def createShadow(mesh, light):
     if light.type == LightType.SPOTLIGHT:
@@ -12,5 +13,16 @@ def createShadowFromSpotLight(mesh, light):
 def _getExtremityVertices(): 
     pass
 
-def _extrude(vertices, point, length):
-    pass
+def getShadowLength(vertex, origin):
+    return (vertex - origin).length()
+
+def _extrudeVertices(vertices, origin):
+    newVertices = vertices[:]
+    for v in reversed(vertices):
+        v2 = Vec2.fromTuple(v)
+        newVertices.append(projectVertex(v2, origin).toTuple())
+    return newVertices
+    
+        
+def projectVertex(point, light):
+    return point + point - light

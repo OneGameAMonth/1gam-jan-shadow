@@ -29,7 +29,9 @@ class Renderer:
         self.transform = transform
     
     def renderLine(self, v1, v2):
-        line(self.surface, v1[0], v1[1], v2[0], v2[1], self.color)
+        a = self._transformVertex(v1)
+        b = self._transformVertex(v2)
+        line(self.surface, a[0], a[1], b[0], b[1], self.color)
         
     def renderCircle(self, center, radius):
         center = self._transformVertex(center)
@@ -38,17 +40,21 @@ class Renderer:
         else:
             circle(self.surface, center[0], center[1], radius, self.color)
 
+    def renderFilledPolygon(self, polygon):
+        filled_polygon(self.surface, map(self._transformVertex, polygon), self.color)
+
+    def renderPolygon(self, polygon):
+        if(self.antialiasing):
+            aapolygon(self.surface, map(self._transformVertex, polygon), self.color)
+        else:    
+            for vid in range(-1, len(polygon) - 1):
+                v1 = polygon[vid]
+                v2 = polygon[vid + 1]
+                self.renderLine(v1, v2)
+
     def renderMesh(self, mesh):
         self.setTransform(mesh.transform)
-
-        if(self.antialiasing):
-            aapolygon(self.surface, map(self._transformVertex, mesh.vertices), self.color)
-        else:    
-            for vid in range(-1, len(mesh.vertices) - 1):
-                v1 = self._transformVertex(mesh.vertices[vid])
-                v2 = self._transformVertex(mesh.vertices[vid + 1])
-                self.renderLine(v1, v2)
-        
+        self.renderPolygon(mesh.vertices)        
         self._resetTransform()
     
     def _resetTransform(self):

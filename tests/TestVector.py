@@ -26,6 +26,6 @@ class TestVec2(unittest.TestCase):
         self.assertEqual(v3, -2)
 
     def testLength(self):
-        self.assertEqual(self.v0.len(), 0)
-        self.assertEqual(self.v1.len(), math.sqrt(2))
-        self.assertEqual(self.v2.len(), math.sqrt(13))
+        self.assertEqual(self.v0.length(), 0)
+        self.assertEqual(self.v1.length(), math.sqrt(2))
+        self.assertEqual(self.v2.length(), math.sqrt(13))
