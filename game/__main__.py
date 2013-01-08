@@ -14,7 +14,7 @@ from game.Light import *
 from game import Shadow
 
 pygame.init()
-
+pygame.display.set_caption("Shadow")
 
 renderer = Renderer()
 renderer.init((800, 600))
