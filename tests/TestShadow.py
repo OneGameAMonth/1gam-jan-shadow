@@ -1,10 +1,11 @@
 import sys
 import pygame
 from pygame.locals import *
+from pygame.time import Clock
 
 from game.Renderer import Renderer
 from game import Shadow
-from game.Vector import Vec2
+from game.Geometry import Vec2
 from game.components.Transform import *
 
 renderer = Renderer()
@@ -31,8 +32,14 @@ def renderLightSource():
     
 def renderShadows():
     renderer.color = Color(20, 21, 22)
-    shadow = Shadow._extrudeVertices(Vertices, Vec2.fromTuple(mousePosition) - Vec2(400, 300))
-    renderer.renderFilledPolygon(shadow)
+    light = Vec2.fromTuple(mousePosition) - Vec2(400, 300)
+    v = map( lambda x: Vec2.fromTuple(x), Vertices)
+    shape = Shadow.projectEdge( v[0], v[1], light)
+    renderer.renderFilledPolygon(shape)
+    shape = Shadow.projectEdge( v[1], v[2], light)
+    renderer.renderFilledPolygon(shape)
+    shape = Shadow.projectEdge( v[0], v[2], light)
+    renderer.renderFilledPolygon(shape)
     
 def renderMesh():
     renderer.color = Color(200, 100, 10)
@@ -61,8 +68,10 @@ def update():
         handleEvent(event)
 
 def run():
+    clock = Clock()
     initialize()
     while(True):
+        dt = clock.tick( 60 )
         update()
         render()
 

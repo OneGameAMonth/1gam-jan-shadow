@@ -47,3 +47,6 @@ class Vec2:
     @staticmethod
     def fromTuple(t):
         return Vec2(t[0], t[1])
+    
+    
+

@@ -14,7 +14,7 @@ class Renderer:
         self.antialiasing = False
 
     def init(self, size):
-        self.surface = pygame.display.set_mode(size)
+        self.surface = pygame.display.set_mode(size, pygame.DOUBLEBUF|pygame.HWSURFACE)
 
     def begin(self):
         self.surface.fill(self.clearColor)

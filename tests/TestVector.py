@@ -1,6 +1,6 @@
 import unittest
 import math
-from game.Vector import Vec2
+from game.Geometry import Vec2
 
 class TestVec2(unittest.TestCase):
     
