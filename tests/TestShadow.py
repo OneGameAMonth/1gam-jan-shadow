@@ -7,9 +7,18 @@ from game.Renderer import Renderer
 from game import Shadow
 from game.Geometry import Vec2
 from game.components.Transform import *
+from game.Mesh import *
 
 renderer = Renderer()
-Vertices = [ (0, 50), (-50, -30), (50, -30) ]
+
+triangle_vertices = [ Vec2(0, 50), Vec2(-50, -30), Vec2(50, -30) ]
+quad_vertices = [ Vec2(-20, -20), Vec2(20, -20), Vec2(20, 20), Vec2(-20, 20) ]
+
+Triangle1 = Mesh( triangle_vertices )
+Triangle1.transform = Transform(translation=(400, 300))
+
+meshes = [ Triangle1 ]
+
 mousePosition = (0, 0)
 
 def initialize():
@@ -29,30 +38,30 @@ def renderLightSource():
     renderer.setTransform(NullTransform)
     renderer.color = Color(200, 100, 10)
     renderer.renderCircle(mousePosition, 3)
-    
-def renderShadows():
+
+def renderShadows(mesh):
+    renderer.setTransform( mesh.transform )
     renderer.color = Color(20, 21, 22)
-    light = Vec2.fromTuple(mousePosition) - Vec2(400, 300)
-    v = map( lambda x: Vec2.fromTuple(x), Vertices)
-    shape = Shadow.projectEdge( v[0], v[1], light)
-    renderer.renderFilledPolygon(shape)
-    shape = Shadow.projectEdge( v[1], v[2], light)
-    renderer.renderFilledPolygon(shape)
-    shape = Shadow.projectEdge( v[0], v[2], light)
-    renderer.renderFilledPolygon(shape)
+    light = Vec2.fromTuple(mousePosition) - Vec2.fromTuple(mesh.transform.translation)
+    Shadow.renderShadow(renderer, mesh.vertices, light)
     
-def renderMesh():
+def renderSurface(mesh):
+    renderer.setTransform( mesh.transform )
     renderer.color = Color(200, 100, 10)
     renderer.antialiasing = True
-    renderer.renderFilledPolygon(Vertices)
+    renderer.renderFilledPolygon(mesh.vertices)
     renderer.antialiasing = False
 
 def render():
     renderer.begin()
     renderLightSource()
-    renderer.setTransform(Transform(translation=(400, 300)))
-    renderShadows()    
-    renderMesh()
+    
+    for m in meshes:
+        renderShadows(m)
+        
+    for m in meshes:
+        renderSurface(m)
+    
     renderer.end()
     
 def handleEvent(event):
@@ -62,6 +71,10 @@ def handleEvent(event):
         sys.exit()
     if event.type == MOUSEMOTION:
         mousePosition = event.pos
+    if event.type == MOUSEBUTTONDOWN:
+        m = Mesh( quad_vertices )
+        m.transform.translation = mousePosition
+        meshes.append(m)
     
 def update():
     for event in pygame.event.get():
@@ -71,7 +84,7 @@ def run():
     clock = Clock()
     initialize()
     while(True):
-        dt = clock.tick( 60 )
+        dt = clock.tick(60)
         update()
         render()
 

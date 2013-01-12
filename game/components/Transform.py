@@ -1,4 +1,5 @@
 import math
+from game.Geometry import Vec2
 
 class Transform:
 
@@ -36,6 +37,6 @@ class Transform:
         v[0] += self.translation[0]
         v[1] += self.translation[1]
 
-        return (round(v[0]), round(v[1]))
+        return Vec2(round(v[0]), round(v[1]))
 
 NullTransform = Transform()

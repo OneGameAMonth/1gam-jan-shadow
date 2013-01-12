@@ -25,6 +25,9 @@ class Vec2:
     def __str__(self):
         return "Vec2({0},{1})".format(self.x, self.y)
     
+    def __repr__(self):
+        return str(self)
+    
     def dot(self, other):
         return self.x * other.x + self.y * other.y
     
@@ -36,6 +39,8 @@ class Vec2:
 
     def normalized(self):
         l = self.length()
+        if l == 0:
+            return Vec2( self.x, self.y )
         return Vec2(self.x / l, self.y / l)
 
     def scaled(self, scalar):
@@ -47,6 +52,3 @@ class Vec2:
     @staticmethod
     def fromTuple(t):
         return Vec2(t[0], t[1])
-    
-    
-
