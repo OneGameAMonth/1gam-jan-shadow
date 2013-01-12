@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="16" height="16" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="basement_tileset" tilewidth="32" tileheight="32">
+  <image source="basement_tileset.png" width="256" height="577"/>
+ </tileset>
+ <layer name="Background" width="16" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYCITMwMxJxBzkYm5R/WP6h/VT5F+QSAWIhMLAzEANU4KAQ==
+  </data>
+ </layer>
+ <layer name="Obstacles" width="16" height="16">
+  <data encoding="base64" compression="zlib">
+   eJzFktEKwCAIRf21nmNPg2D0Hbmn2q+vQMGJtRjBDlwo9ZpIAP/jScxZdZFWEz54UhVO+gvVSw+SSsezGTEv/K1XFndN7MT5TX6fSaruEGfX8TP6PkNWPUegMZ+cX+c0o7zew0p2eO6x4axCsP9QpB5vBKEV3P4IFpw=
+  </data>
+ </layer>
+</map>
